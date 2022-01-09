@@ -1,4 +1,5 @@
 import random
+import logging
 
 import telebot
 
@@ -9,9 +10,11 @@ from generic import (
 from hackernews import get_stories_message
 
 
+logger = telebot.logger
+telebot.logger.setLevel(logging.DEBUG) # Outputs debug messages to console.
+
 if TOKEN:
     bot = telebot.TeleBot(TOKEN, parse_mode=None)
-    bot.infinity_polling()
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
@@ -33,3 +36,6 @@ def handle_message(message):
             'clgt?',
             f"'{message.text}' cái quần què! "])
     bot.send_message(message.chat.id, text=text)
+
+if __name__ == "__main__":
+    bot.infinity_polling()
